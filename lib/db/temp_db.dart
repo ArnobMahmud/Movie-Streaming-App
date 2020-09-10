@@ -1,5 +1,13 @@
 import 'package:movie_stream_app/models/movie_model.dart';
 
+final List<String> categories = [
+  'Action',
+  'Sci/Fi',
+  'Horror',
+  'Dramma',
+  'Thriller'
+];
+
 final List<Movie> movies = [
   Movie(
       id: 1,
