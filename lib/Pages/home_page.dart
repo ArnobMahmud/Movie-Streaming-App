@@ -10,11 +10,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool _value = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: _value == false ? Colors.white : Colors.black,
       appBar: AppBar(
         title: Text(
           'Movie Stream',

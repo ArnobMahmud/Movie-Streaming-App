@@ -30,10 +30,10 @@ class _MovieItemState extends State<MovieItem> {
             children: [
               Hero(
                 tag: widget.movie.id,
-                  child: Image.asset(
+                child: Image.asset(
                   widget.movie.image,
-                  width: double.maxFinite,
-                  height: 200,
+                  //width: double.maxFinite,
+                  height: 250,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -104,7 +104,12 @@ class _MovieItemState extends State<MovieItem> {
                     SizedBox(
                       width: 5,
                     ),
-                    IconButton(icon: Icon(Icons.favorite), onPressed: () {},)
+                    IconButton(
+                      icon: Icon(
+                        Icons.favorite,
+                      ),
+                      onPressed: () {},
+                    )
                   ],
                 ),
               ),
