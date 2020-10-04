@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:movie_stream_app/models/movie_model.dart';
 
 class NewMoviePage extends StatefulWidget {
   @override
   _NewMoviePageState createState() => _NewMoviePageState();
 }
+
+DateTime _selectedDate;
+String date;
 
 class _NewMoviePageState extends State<NewMoviePage> {
   var movie = Movie();
@@ -13,6 +17,19 @@ class _NewMoviePageState extends State<NewMoviePage> {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
     }
+  }
+
+  void _openDatePickerDialog() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1960),
+      lastDate: DateTime(2030),
+    ).then((date) {
+      setState(() {
+        _selectedDate = date;
+      });
+    });
   }
 
   @override
@@ -80,6 +97,21 @@ class _NewMoviePageState extends State<NewMoviePage> {
                   onSaved: (value) {
                     movie.description = value;
                   }),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  FlatButton(
+                    child: Text("Select Release Date"),
+                    onPressed: _openDatePickerDialog,
+                  ),
+                  Text(_selectedDate == null
+                      ? "No Date Chosen"
+                      : DateFormat('EEE, MMM dd, yyyy').format(_selectedDate)
+                  ),
+                ],
+              ),
               SizedBox(
                 height: 10,
               ),
