@@ -2,7 +2,7 @@ import 'package:movie_stream_app/models/movie_model.dart';
 
 final List<String> categories = [
   'Action',
-  'Sci/Fi',
+  'Sci-Fi',
   'Horror',
   'Dramma',
   'Thriller'

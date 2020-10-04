@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:movie_stream_app/models/movie_model.dart';
 
@@ -7,10 +9,12 @@ class NewMoviePage extends StatefulWidget {
   _NewMoviePageState createState() => _NewMoviePageState();
 }
 
-DateTime _selectedDate;
-String date;
-
 class _NewMoviePageState extends State<NewMoviePage> {
+  DateTime _selectedDate;
+  String date;
+  String category = 'Action';
+  String _imagePath;
+
   var movie = Movie();
   final _formKey = GlobalKey<FormState>();
   void _saveMovie() {
@@ -28,7 +32,17 @@ class _NewMoviePageState extends State<NewMoviePage> {
     ).then((date) {
       setState(() {
         _selectedDate = date;
+        movie.releaseYear = _selectedDate.year;
       });
+    });
+  }
+
+  void captureImage() async {
+    var capturedImageFile =
+        await ImagePicker().getImage(source: ImageSource.camera);
+    setState(() {
+      _imagePath = capturedImageFile.path;
+      movie.image = _imagePath;
     });
   }
 
@@ -108,8 +122,58 @@ class _NewMoviePageState extends State<NewMoviePage> {
                   ),
                   Text(_selectedDate == null
                       ? "No Date Chosen"
-                      : DateFormat('EEE, MMM dd, yyyy').format(_selectedDate)
+                      : DateFormat('EEE, MMM dd, yyyy').format(_selectedDate)),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              // DropdownButton(
+              //   value: category,  // by default
+              //   items: categories
+              //       .map((cat) => DropdownMenuItem(
+              //             value: cat,   // one by one
+              //             child: Text(cat),
+              //           ))
+              //       .toList(),
+              //   onChanged: (value) {
+              //     setState(() {
+              //       category = value;  // by default = user picked
+              //     });
+              //   },
+              // ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 150,
+                    width: 100,
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 2, color: Colors.blue),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: _imagePath == null
+                        ? Text(
+                            "No image found",
+                            style: TextStyle(fontSize: 15),
+                            textAlign: TextAlign.center,
+                          )
+                        : Image.file(
+                            File(_imagePath),
+                            fit: BoxFit.cover,
+                          ),
                   ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.camera,
+                      size: 30,
+                      color: Colors.green,
+                    ),
+                    onPressed: captureImage,
+                  )
                 ],
               ),
               SizedBox(
