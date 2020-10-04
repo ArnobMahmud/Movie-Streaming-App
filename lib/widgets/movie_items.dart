@@ -106,9 +106,15 @@ class _MovieItemState extends State<MovieItem> {
                     ),
                     IconButton(
                       icon: Icon(
-                        Icons.favorite,
+                        widget.movie.isFavourite
+                            ? Icons.favorite
+                            : Icons.favorite_border,color: Colors.red,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          widget.movie.isFavourite =! widget.movie.isFavourite;
+                        });
+                      },
                     )
                   ],
                 ),
