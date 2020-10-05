@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:movie_stream_app/Pages/home_page.dart';
+import 'package:movie_stream_app/db/db_sqlflite.dart';
 import 'package:movie_stream_app/models/movie_model.dart';
 
 class NewMoviePage extends StatefulWidget {
@@ -20,6 +22,18 @@ class _NewMoviePageState extends State<NewMoviePage> {
   void _saveMovie() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
+      movie.category = category;
+      DBSQliteHelper.insertMovie(movie).then((id) {
+        if (id > 0) {
+          // go to movie page
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+              builder: (context) => HomePage(),
+             )
+          );
+        }
+      });
     }
   }
 
@@ -32,7 +46,7 @@ class _NewMoviePageState extends State<NewMoviePage> {
     ).then((date) {
       setState(() {
         _selectedDate = date;
-        movie.releaseYear = _selectedDate.year;
+        movie.releaseDate = _selectedDate.microsecondsSinceEpoch;
       });
     });
   }
@@ -126,7 +140,7 @@ class _NewMoviePageState extends State<NewMoviePage> {
                 ],
               ),
               SizedBox(
-                height: 10,
+                height: 5,
               ),
               // DropdownButton(
               //   value: category,  // by default
@@ -146,8 +160,8 @@ class _NewMoviePageState extends State<NewMoviePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    height: 150,
-                    width: 100,
+                    height: 160,
+                    width: 120,
                     decoration: BoxDecoration(
                       border: Border.all(width: 2, color: Colors.blue),
                       borderRadius: BorderRadius.circular(10),

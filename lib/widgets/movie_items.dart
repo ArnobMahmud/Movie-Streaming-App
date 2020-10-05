@@ -52,7 +52,7 @@ class _MovieItemState extends State<MovieItem> {
                           width: 5,
                         ),
                         Text(
-                          '${widget.movie.releaseYear}',
+                          '${widget.movie.releaseDate}',
                           style: TextStyle(
                             color: Colors.white,
                             fontFamily: 'Martel',
